@@ -20,7 +20,7 @@ void	free_stack(t_stack_node **stack)
 void	error_free(t_stack_node **a, char **argv)
 {
     free_stack(a);
-    write (2, "Error\n", 6);
+	write (2, "Error\n", 6);
     exit (1);
 }
 
@@ -29,26 +29,18 @@ int	error_syntax(char *str_nbr)
     int i;
 
     i = 0;
-    if (str_nbr[i] != '+' 
-            && str_nbr[i] != '-'
-            && (str_nbr[i] < '0' || str_nbr[i] > '9'))
+    if (!str_nbr)
+        return(1);
+    if (str_nbr[i] == '+' || str_nbr[i] == '-')
     {
-        printf("a");
-        return (1);
-    }
-    if (str_nbr[i] == '+' || str_nbr[i] == '-'
-        && (str_nbr[i + 1] >= '0' && str_nbr[i + 1] <= '9'))
-        {
-            printf("b");
+        if (!str_nbr[i + 1])
             return (1);
-        }
+        i++;
+    }
     while (str_nbr[i])
     {
-        if (str_nbr[i] < '0' && str_nbr[i] > '9')
-        {
-            printf("c");
+        if (str_nbr[i] < '0' || str_nbr[i] > '9')
             return (1);
-        }
         i++;
     }
     return (0);
@@ -56,8 +48,6 @@ int	error_syntax(char *str_nbr)
 
 int	error_repetition(t_stack_node *a, int nbr)
 {
-    if (a == NULL)
-        return (0);
     while (a)
     {
         if (a->value == nbr)

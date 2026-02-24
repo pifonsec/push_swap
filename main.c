@@ -3,10 +3,21 @@
 
 int	stack_sorted(t_stack_node *a)
 {
-	int boolean;
+	int current;
+	int	next;
 
-	boolean = 1;
-	return (boolean);
+	if (!a)
+		return (-1);
+	while (a->next)
+	{
+		current = a->value;
+		next = a->next->value;
+		if (current > next)
+			return(1);
+		a = a->next;
+	}
+	printf("la stack est triee\n");
+	return (0);
 }
 
 int is_valid_number(char *str)
@@ -47,16 +58,13 @@ int	check_duplicates(int *values, int count)
 	return (1);
 }
 
-void	print_tab(char **tab)
+int	count_args(char **args)
 {
-	int i = 0;
+	int	i = 0;
 
-	while (tab[i])
-	{
-		printf("%s\n", tab[i]);
+	while (args[i])
 		i++;
-	}
-	printf("taille = %d\n", i); 
+	return (i);
 }
 
 int main(int argc, char **argv)
@@ -67,17 +75,34 @@ int main(int argc, char **argv)
 
 	a = NULL;
 	b = NULL;
-	if (argc == 1 || (argc == 2 && !argv[1][0]))
+	if (argc < 2)
+	{
+		write (2, "Error\n", 6);
 		return (1);
+	}
 	if (argc == 2)
+	{
 		args = ft_split(argv[1], ' ');
-	print_tab(args);
-
-	stack_init(&a, args);
-	// if (stack_sorted(a) == 0)
-	// {
-	// 	printf("Je trie la, dep");
-	// 	//push_swap(&a, &b);
-	// }
+		if (!args || count_args(args) < 3)
+		{
+			write (2, "Error\n", 6);
+			return(1);
+		}
+		stack_init(&a, args);
+	}
+	else
+	{
+		if (argc < 4)
+		{
+			write (2, "Error\n", 6);
+			return(1);
+		}
+		stack_init(&a, &argv[1]);
+	}	
+	if (stack_sorted(a) == 1)
+	{
+		printf("Je trie la, dep\n");
+		//push_swap(&a, &b);
+	}
 	// free_stack(&a);
 }

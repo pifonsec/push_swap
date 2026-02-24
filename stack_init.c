@@ -1,5 +1,37 @@
 #include "push_swap.h"
 
+int fill_node(t_stack_node **a, char **args)
+{
+    int i;
+    int nbr;
+    t_stack_node *new_node;
+    t_stack_node *tmp;
+
+    i = 0;
+    if  (!args)
+        return (1);
+    while(args[i])
+    {
+        nbr = ft_atol(args[i]);
+        new_node = malloc(sizeof(t_stack_node));
+        if(!new_node)
+            return (1);
+        new_node->value = (int)nbr;
+        new_node->next = NULL;
+        if (!*a)
+            *a = new_node;
+        else
+        {
+            tmp = *a;
+            while (tmp->next)
+                tmp = tmp->next;
+            tmp->next = new_node;
+        }
+        i++;
+    }
+    return (0);
+}
+
 long ft_atol(char *str)
 {
     int i;
@@ -29,26 +61,22 @@ long ft_atol(char *str)
     return(result);
 }
 
-void stack_init(t_stack_node **a, char **argv)
+void stack_init(t_stack_node **a, char **args)
 {
     long nbr;
     int i;
 
     i = 0;
-    while (argv[i])
+    while (args[i])
     {
-        printf("Je lance error_syntax....................\n");
-        if (error_syntax(argv[i]) == 1)
-        {
-            printf("asd");
-            error_free(a, argv);
-        }
-        nbr = ft_atol(argv[i]);
+        if (error_syntax(args[i]) == 1)
+            error_free(a, args);
+        nbr = ft_atol(args[i]);
         if (nbr < INT_MIN || nbr > INT_MAX)
-            error_free(a, (char**)argv);
-        if (error_repetition(*a, (int)nbr))
-            error_free(a, (char**)argv);
-        //append_node(a, (int)nbr);
+            error_free(a, (char**)args);
+        if (error_repetition(*a, (int)nbr) == 1)
+            error_free(a, args);
         i++;
     }
+    fill_node(a, args);
 }
