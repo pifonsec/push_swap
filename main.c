@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/04 09:10:23 by pifonsec          #+#    #+#             */
+/*   Updated: 2026/03/04 09:10:23 by pifonsec         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include <stdio.h>
 
@@ -16,7 +28,6 @@ int	stack_sorted(t_stack_node *a)
 			return(1);
 		a = a->next;
 	}
-	printf("la stack est triee\n");
 	return (0);
 }
 
@@ -25,7 +36,7 @@ int is_valid_number(char *str)
 	int i;
 
 	i = 0;
-	if (str[i] == '+' || str[i] == '-')
+	if (str[i] == '+' || str[i] == '-' || str[i] == ' ')
 			i++;
 	if (str[i] == '\0')
 		return (0);
@@ -38,71 +49,71 @@ int is_valid_number(char *str)
 	return (1);
 }
 
-int	check_duplicates(int *values, int count)
+int	check_duplicates(t_stack_node *a)
 {
-	int	i;
-	int	j;
+	t_stack_node	*current;
+	t_stack_node	*runner;
 
-	i = 0;
-	while (i < count)
-	{
-		j = i + 1;
-		while(j < count)
+	current = a;
+	while (current)
+	{	
+		runner = current->next;
+		while (runner)
 		{
-			if (values[i] == values[j])
-				return (0);
-			j++;
+			if (runner->value == current->value)
+				return (1);
+			runner = runner->next;
 		}
-	i++;
+		current = current->next;
 	}
-	return (1);
-}
-
-int	count_args(char **args)
-{
-	int	i = 0;
-
-	while (args[i])
-		i++;
-	return (i);
+	return (0);
 }
 
 int main(int argc, char **argv)
 {
 	t_stack_node	*a;
 	t_stack_node	*b;
-	char **args;
+
+	char *args;
+	char *tmp;
+	int i;
 
 	a = NULL;
 	b = NULL;
+	args = NULL;
+	i = 1;
 	if (argc < 2)
 	{
 		write (2, "Error\n", 6);
 		return (1);
 	}
-	if (argc == 2)
+	while (i < argc)
 	{
-		args = ft_split(argv[1], ' ');
-		if (!args || count_args(args) < 3)
+		if (!args)
+			args = ft_strjoin("",argv[i]);
+		else
 		{
-			write (2, "Error\n", 6);
-			return(1);
+			tmp = ft_strjoin(args, " ");
+			free(args);
+			args = ft_strjoin(tmp, argv[i]);
+			free(tmp);
 		}
-		stack_init(&a, args);
+		i++;
 	}
-	else
+	stack_init(&a, args);
+	if (check_duplicates(a) == 1)
 	{
-		if (argc < 4)
-		{
-			write (2, "Error\n", 6);
-			return(1);
-		}
-		stack_init(&a, &argv[1]);
-	}	
+		error_free(&a);
+		return (1);
+	}
+	if (!a)
+{
+    free(args);
+    write(2, "Error\n", 6);
+    return (1);
+}
 	if (stack_sorted(a) == 1)
-	{
-		printf("Je trie la, dep\n");
-		//push_swap(&a, &b);
-	}
-	// free_stack(&a);
+		push_swap(&a, &b);
+	free(args);
+	free_stack(&a);
 }

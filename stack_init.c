@@ -1,82 +1,109 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_init.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/04 09:10:52 by pifonsec          #+#    #+#             */
+/*   Updated: 2026/03/04 09:10:52 by pifonsec         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int fill_node(t_stack_node **a, char **args)
+long	valid_number(char *args, int *i, t_stack_node **a)
 {
-    int i;
-    int nbr;
-    t_stack_node *new_node;
-    t_stack_node *tmp;
+	long	nbr;
+	int		sign;
 
-    i = 0;
-    if  (!args)
-        return (1);
-    while(args[i])
+	while (args[*i] == ' ' || args[*i] == '\t')
+		(*i)++;
+	sign = 1;
+	if (args[*i] == '+' || args[*i] == '-')
+	{
+		if (args[*i] == '-')
+			sign = -1;
+		(*i)++;
+		if (!(args[*i] >= '0' && args[*i] <= '9'))
+			error_free(a);
+	}
+	if (!(args[*i] >= '0' && args[*i] <= '9'))
+		error_free(a);
+	nbr = 0;
+	while (args[*i] >= '0' && args[*i] <= '9')
+	{
+		nbr = (nbr * 10) + (args[*i] - '0');
+		(*i)++;
+	}
+	return (nbr * sign);
+}
+
+int	error_repetition(t_stack_node *a, int nbr)
+{
+    while (a)
     {
-        nbr = ft_atol(args[i]);
-        new_node = malloc(sizeof(t_stack_node));
-        if(!new_node)
+		
+        if (a->value == nbr)
             return (1);
-        new_node->value = (int)nbr;
-        new_node->next = NULL;
-        if (!*a)
-            *a = new_node;
-        else
-        {
-            tmp = *a;
-            while (tmp->next)
-                tmp = tmp->next;
-            tmp->next = new_node;
-        }
-        i++;
+		a = a->next;
     }
     return (0);
 }
 
-long ft_atol(char *str)
+static void assign_index(t_stack_node *stack)
 {
-    int i;
-    long result;
-	int	sign;
-
-    i = 0;
-    result = 0;
-	sign = 1;
-
-    while (str[i] && (str[i] == ' ' || str[i] == '\t'
-            || str[i] == '\n' || str[i] == '\r'
-            || str[i] == '\v' || str[i] == '\f'))
-        i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-    while(str[i] >= '0' && str[i] <= '9')
+    t_stack_node *i_node;
+	t_stack_node *j_node;
+    int count;
+    
+    i_node = stack;
+    while (i_node)
     {
-        result = (result * 10) + (str[i] - '0');
-        i++;
+        count = 0;
+        j_node = stack;
+        while (j_node)
+        {
+            if (j_node->value < i_node->value)
+                count++;
+            j_node = j_node->next;
+        }
+        i_node->index = count;
+        i_node = i_node->next;
     }
-	result *= sign;
-    return(result);
 }
 
-void stack_init(t_stack_node **a, char **args)
+void	stack_init(t_stack_node **a, char *args)
 {
-    long nbr;
-    int i;
+	long			nbr;
+	int				i;
+	t_stack_node	*new;
+	t_stack_node	*tmp;
 
-    i = 0;
-    while (args[i])
-    {
-        if (error_syntax(args[i]) == 1)
-            error_free(a, args);
-        nbr = ft_atol(args[i]);
-        if (nbr < INT_MIN || nbr > INT_MAX)
-            error_free(a, (char**)args);
-        if (error_repetition(*a, (int)nbr) == 1)
-            error_free(a, args);
-        i++;
-    }
-    fill_node(a, args);
+	i = 0;
+	while (args[i])
+	{
+		while (args[i] == ' ' || args[i] == '\t')
+			i++;
+		if (!args[i])
+			break;
+		nbr = valid_number(args, &i, a);
+		if (nbr < INT_MIN || nbr > INT_MAX)
+			error_free(a);
+		new = malloc(sizeof(t_stack_node));
+		if (!new)
+			error_free(a);
+		new->value = (int)nbr;
+		new->next = NULL;
+		if (!*a)
+			*a = new;
+		else
+		{
+			tmp = *a;
+			while (tmp->next)
+				tmp = tmp->next;
+			tmp->next = new;
+		}
+	}
+	assign_index(*a);
 }
