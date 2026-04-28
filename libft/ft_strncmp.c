@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*   By: pifonsec <pifonsec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 09:10:33 by pifonsec          #+#    #+#             */
-/*   Updated: 2026/03/04 09:10:33 by pifonsec         ###   ########.fr       */
+/*   Created: 2025/11/05 11:48:25 by pifonsec          #+#    #+#             */
+/*   Updated: 2025/11/05 11:48:25 by pifonsec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	stack_size(t_stack_node *stack)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (stack)
-	{
+	while (s1[i] && (s1[i] == s2[i]) && i < n)
 		i++;
-		stack = stack->next;
-	}
-	return (i);
-}
-
-void	push_swap(t_stack_node **a, t_stack_node **b)
-{
-	if (stack_size(*a) <= 5)
-		sort_small(a, b);
-	else
-		radix_sort(a, b);
+	if (i < n)
+		return ((unsigned char) s1[i] - (unsigned char) s2[i]);
+	return (0);
 }

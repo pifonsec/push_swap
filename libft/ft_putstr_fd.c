@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*   By: pifonsec <pifonsec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 09:10:33 by pifonsec          #+#    #+#             */
-/*   Updated: 2026/03/04 09:10:33 by pifonsec         ###   ########.fr       */
+/*   Created: 2025/11/05 11:10:10 by pifonsec          #+#    #+#             */
+/*   Updated: 2025/11/05 11:10:10 by pifonsec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	stack_size(t_stack_node *stack)
+void	ft_putstr_fd(char *s, int fd)
 {
 	int	i;
 
 	i = 0;
-	while (stack)
+	if (!s)
+		return ;
+	while (s[i])
 	{
+		write(fd, &s[i], 1);
 		i++;
-		stack = stack->next;
 	}
-	return (i);
-}
-
-void	push_swap(t_stack_node **a, t_stack_node **b)
-{
-	if (stack_size(*a) <= 5)
-		sort_small(a, b);
-	else
-		radix_sort(a, b);
+	return ;
 }

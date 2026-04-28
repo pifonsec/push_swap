@@ -14,46 +14,47 @@
 
 void	free_stack(t_stack_node **stack)
 {
-    t_stack_node *tmp;
-    t_stack_node *current;
+	t_stack_node	*tmp;
+	t_stack_node	*current;
 
-    if (stack == NULL)
-        return ;
-    current = *stack;
-    while (current)
-    {
-        tmp = current->next;
-        free(current);
-        current = tmp;
-    }
-    *stack = NULL;
+	if (stack == NULL)
+		return ;
+	current = *stack;
+	while (current)
+	{
+		tmp = current->next;
+		free(current);
+		current = tmp;
+	}
+	*stack = NULL;
 }
 
-void	error_free(t_stack_node **a)
+void	error_free(t_stack_node **a, char *args)
 {
-    free_stack(a);
+	free_stack(a);
+	free(args);
 	write (2, "Error\n", 6);
-    exit (1);
+	exit (1);
 }
 
 int	error_syntax(char *str_nbr)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (!str_nbr)
-        return(1);
-    if (str_nbr[i] == '+' || str_nbr[i] == '-')
-    {
-        if (!str_nbr[i + 1])
-            return (1);
-        i++;
-    }
-    while (str_nbr[i])
-    {
-        if (str_nbr[i] < '0' || str_nbr[i] > '9')
-            return (1);
-        i++;
-    }
-    return (0);
+	i = 0;
+	if (!str_nbr)
+		return (1);
+	if (str_nbr[i] == '+' || str_nbr[i] == '-')
+	{
+		if (!str_nbr[i + 1])
+			return (1);
+		i++;
+	}
+	while (str_nbr[i])
+	{
+		if (str_nbr[i] < '0' || str_nbr[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
 }

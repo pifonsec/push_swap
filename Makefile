@@ -7,7 +7,7 @@ LIBFT = ./libft/libft.a
 SRC = error_free.c main.c \
 	  operations.c push_swap.c \
 	  sort_big.c sort_small.c \
-	  stack_init.c
+	  stack_init.c parsing.c
 
 OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

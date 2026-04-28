@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*   By: pifonsec <pifonsec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 09:10:33 by pifonsec          #+#    #+#             */
-/*   Updated: 2026/03/04 09:10:33 by pifonsec         ###   ########.fr       */
+/*   Created: 2025/11/05 11:43:53 by pifonsec          #+#    #+#             */
+/*   Updated: 2025/11/05 11:43:53 by pifonsec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	stack_size(t_stack_node *stack)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	int	i;
+	size_t	i;
+	size_t	len;
 
 	i = 0;
-	while (stack)
+	len = 0;
+	while (src[len])
+		len++;
+	if (dstsize == 0)
+		return (len);
+	while (src[i] && i + 1 < dstsize)
 	{
+		dst[i] = src[i];
 		i++;
-		stack = stack->next;
 	}
-	return (i);
-}
-
-void	push_swap(t_stack_node **a, t_stack_node **b)
-{
-	if (stack_size(*a) <= 5)
-		sort_small(a, b);
-	else
-		radix_sort(a, b);
+	dst[i] = '\0';
+	return (len);
 }

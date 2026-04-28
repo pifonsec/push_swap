@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*   By: pifonsec <pifonsec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 09:10:33 by pifonsec          #+#    #+#             */
-/*   Updated: 2026/03/04 09:10:33 by pifonsec         ###   ########.fr       */
+/*   Created: 2025/11/05 11:36:40 by pifonsec          #+#    #+#             */
+/*   Updated: 2025/11/05 11:36:40 by pifonsec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	stack_size(t_stack_node *stack)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	int	i;
+	unsigned int	i;
 
 	i = 0;
-	while (stack)
+	if (!s || !f)
+		return ;
+	while (s[i])
 	{
+		f(i, &s[i]);
 		i++;
-		stack = stack->next;
 	}
-	return (i);
-}
-
-void	push_swap(t_stack_node **a, t_stack_node **b)
-{
-	if (stack_size(*a) <= 5)
-		sort_small(a, b);
-	else
-		radix_sort(a, b);
 }

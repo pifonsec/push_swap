@@ -26,10 +26,10 @@ long	valid_number(char *args, int *i, t_stack_node **a)
 			sign = -1;
 		(*i)++;
 		if (!(args[*i] >= '0' && args[*i] <= '9'))
-			error_free(a);
+			error_free(a, args);
 	}
 	if (!(args[*i] >= '0' && args[*i] <= '9'))
-		error_free(a);
+		error_free(a, args);
 	nbr = 0;
 	while (args[*i] >= '0' && args[*i] <= '9')
 	{
@@ -41,36 +41,35 @@ long	valid_number(char *args, int *i, t_stack_node **a)
 
 int	error_repetition(t_stack_node *a, int nbr)
 {
-    while (a)
-    {
-		
-        if (a->value == nbr)
-            return (1);
+	while (a)
+	{
+		if (a->value == nbr)
+			return (1);
 		a = a->next;
-    }
-    return (0);
+	}
+	return (0);
 }
 
-static void assign_index(t_stack_node *stack)
+static void	assign_index(t_stack_node *stack)
 {
-    t_stack_node *i_node;
-	t_stack_node *j_node;
-    int count;
-    
-    i_node = stack;
-    while (i_node)
-    {
-        count = 0;
-        j_node = stack;
-        while (j_node)
-        {
-            if (j_node->value < i_node->value)
-                count++;
-            j_node = j_node->next;
-        }
-        i_node->index = count;
-        i_node = i_node->next;
-    }
+	int				count;
+	t_stack_node	*i_node;
+	t_stack_node	*j_node;
+
+	i_node = stack;
+	while (i_node)
+	{
+		count = 0;
+		j_node = stack;
+		while (j_node)
+		{
+			if (j_node->value < i_node->value)
+				count++;
+			j_node = j_node->next;
+		}
+		i_node->index = count;
+		i_node = i_node->next;
+	}
 }
 
 void	stack_init(t_stack_node **a, char *args)
@@ -86,13 +85,13 @@ void	stack_init(t_stack_node **a, char *args)
 		while (args[i] == ' ' || args[i] == '\t')
 			i++;
 		if (!args[i])
-			break;
+			break ;
 		nbr = valid_number(args, &i, a);
 		if (nbr < INT_MIN || nbr > INT_MAX)
-			error_free(a);
+			error_free(a, args);
 		new = malloc(sizeof(t_stack_node));
 		if (!new)
-			error_free(a);
+			error_free(a, args);
 		new->value = (int)nbr;
 		new->next = NULL;
 		if (!*a)

@@ -11,72 +11,14 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
-int	stack_sorted(t_stack_node *a)
+int	main(int argc, char **argv)
 {
-	int current;
-	int	next;
-
-	if (!a)
-		return (-1);
-	while (a->next)
-	{
-		current = a->value;
-		next = a->next->value;
-		if (current > next)
-			return(1);
-		a = a->next;
-	}
-	return (0);
-}
-
-int is_valid_number(char *str)
-{
-	int i;
-
-	i = 0;
-	if (str[i] == '+' || str[i] == '-' || str[i] == ' ')
-			i++;
-	if (str[i] == '\0')
-		return (0);
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	check_duplicates(t_stack_node *a)
-{
-	t_stack_node	*current;
-	t_stack_node	*runner;
-
-	current = a;
-	while (current)
-	{	
-		runner = current->next;
-		while (runner)
-		{
-			if (runner->value == current->value)
-				return (1);
-			runner = runner->next;
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
-int main(int argc, char **argv)
-{
+	char			*args;
+	char			*tmp;
+	int				i;
 	t_stack_node	*a;
 	t_stack_node	*b;
-
-	char *args;
-	char *tmp;
-	int i;
 
 	a = NULL;
 	b = NULL;
@@ -90,7 +32,7 @@ int main(int argc, char **argv)
 	while (i < argc)
 	{
 		if (!args)
-			args = ft_strjoin("",argv[i]);
+			args = ft_strjoin("", argv[i]);
 		else
 		{
 			tmp = ft_strjoin(args, " ");
@@ -103,15 +45,15 @@ int main(int argc, char **argv)
 	stack_init(&a, args);
 	if (check_duplicates(a) == 1)
 	{
-		error_free(&a);
+		error_free(&a, args);
 		return (1);
 	}
 	if (!a)
-{
-    free(args);
-    write(2, "Error\n", 6);
-    return (1);
-}
+	{
+		free(args);
+		write(2, "Error\n", 6);
+		return (1);
+	}
 	if (stack_sorted(a) == 1)
 		push_swap(&a, &b);
 	free(args);

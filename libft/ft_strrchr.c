@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pifonsec <pifonsec@student.42Angouleme.    +#+  +:+       +#+        */
+/*   By: pifonsec <pifonsec@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 09:10:33 by pifonsec          #+#    #+#             */
-/*   Updated: 2026/03/04 09:10:33 by pifonsec         ###   ########.fr       */
+/*   Created: 2025/11/05 11:50:43 by pifonsec          #+#    #+#             */
+/*   Updated: 2025/11/05 11:50:43 by pifonsec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-int	stack_size(t_stack_node *stack)
+char	*ft_strrchr(const char *str, int searchedChar)
 {
 	int	i;
 
-	i = 0;
-	while (stack)
+	i = ft_strlen(str);
+	if (searchedChar == '\0')
+		return ((char *) str + i);
+	while (i >= 0)
 	{
-		i++;
-		stack = stack->next;
+		if (str[i] == (char) searchedChar)
+			return ((char *) str + i);
+		i--;
 	}
-	return (i);
-}
-
-void	push_swap(t_stack_node **a, t_stack_node **b)
-{
-	if (stack_size(*a) <= 5)
-		sort_small(a, b);
-	else
-		radix_sort(a, b);
+	return (NULL);
 }
